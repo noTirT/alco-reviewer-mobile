@@ -2,6 +2,7 @@ export type ApiResponse<T> = {
     message: string;
     status: boolean;
     data: T;
+    status_code: number;
 }
 
 export type TokenResponse = {
