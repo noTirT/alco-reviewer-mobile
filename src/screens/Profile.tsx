@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { api } from "../services/api";
-import { ReviewResponse, UserProfileResponse } from "@/types/api";
-import ReviewDisplay from "@/components/ReviewDisplay";
+import { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { api } from '../services/api';
+import { ReviewResponse, UserProfileResponse } from '@/types';
+import ReviewDisplay from '@/components/ReviewDisplay';
 
 export default function ProfileScreen() {
   const [profile, setProfile] = useState<UserProfileResponse>(
@@ -25,7 +25,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../assets/defaultProfile.png")}
+        source={require('../../assets/defaultProfile.png')}
         style={styles.profileImage}
       />
       <Text style={styles.nameTitle}>{profile.username}</Text>
@@ -34,7 +34,7 @@ export default function ProfileScreen() {
         <ReviewDisplay
           review={review}
           key={review.review_id}
-          onPress={() => console.log("card pressed")}
+          onPress={() => console.log('card pressed')}
         />
       ))}
     </View>
@@ -44,18 +44,18 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    width: "100%",
+    alignItems: 'center',
+    width: '100%',
     marginTop: 10,
   },
   nameTitle: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   subTitle: {
     fontSize: 12,
-    textAlign: "center",
+    textAlign: 'center',
   },
   profileImage: {
     width: 150,

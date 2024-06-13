@@ -4,14 +4,13 @@ import { AuthProvider } from './src/context/AuthContext';
 import AxiosErrorHandler from '@/components/AxiosErrorHandler';
 
 export default function App() {
-    // maybe change asyncstorage to securestorage
-    return (
-        <NavigationContainer>
-            <AuthProvider>
-                <AxiosErrorHandler>
-                    <AppRoutes />
-                </AxiosErrorHandler>
-            </AuthProvider>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <AuthProvider>
+        <AxiosErrorHandler>
+          <AppRoutes />
+        </AxiosErrorHandler>
+      </AuthProvider>
+    </NavigationContainer>
+  );
 }

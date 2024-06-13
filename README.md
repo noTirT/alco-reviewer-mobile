@@ -12,3 +12,7 @@
 ### Cleaning cache
 
 - To start the project from a clean cache run `npm clear-start`
+
+## TODO
+
+- Change asyncstorage for auth items to securestorage

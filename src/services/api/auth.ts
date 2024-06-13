@@ -1,47 +1,59 @@
-import axiosApi from "./axiosInstance"
-import { ApiResponse, TokenResponse } from "@/types/api"
+import axiosApi from './axiosInstance';
+import { ApiResponse, TokenResponse } from '@/types';
 
-export async function refreshAccessToken(refreshToken: string) {
-    try {
-        if (!refreshToken) throw new Error("No refresh-token provided")
+export async function refreshAccessToken(
+  refreshToken: string,
+): Promise<string | null> {
+  try {
+    if (!refreshToken) throw new Error('No refresh-token provided');
 
-        const response = await axiosApi.get("/auth/refresh", {
-            headers: {
-                "Authorization": `Bearer ${refreshToken}`,
-            },
-        })
+    const response = await axiosApi.get<ApiResponse<TokenResponse>>(
+      '/auth/refresh',
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      },
+    );
 
-        return response.data.access_token
-    } catch (error) {
-        console.error("Error refreshing token:", error)
-    }
+    return response.data.data.access_token;
+  } catch (error: any) {
+    throw new Error('Error refreshing token: ', error);
+  }
 }
 
-export async function login(loginName: string, password: string) {
-    try {
-        const response = await axiosApi.post<ApiResponse<TokenResponse>>("/auth/signin",
-            {
-                username: loginName,
-                password: password,
-            },
-        )
-        const data = response.data
+export async function login(
+  loginName: string,
+  password: string,
+): Promise<TokenResponse | null> {
+  try {
+    const response = await axiosApi.post<ApiResponse<TokenResponse>>(
+      '/auth/signin',
+      {
+        username: loginName,
+        password: password,
+      },
+    );
+    const data = response.data.data;
 
-        return data
-    } catch (error) {
-        console.error("Error logging in:", error)
-    }
+    return data;
+  } catch (error: any) {
+    throw new Error('Error logging in: ', error);
+  }
 }
 
-export async function signup(username: string, email: string, password: string) {
-    try {
-        await axiosApi.post("/auth/signup",
-            {
-                username,
-                email,
-                password,
-            });
-    } catch (error: any) {
-        console.error("Error creating new user account:", error)
-    }
+export async function signup(
+  username: string,
+  email: string,
+  password: string,
+): Promise<void> {
+  try {
+    await axiosApi.post('/auth/signup', {
+      username,
+      email,
+      password,
+    });
+  } catch (error: any) {
+    throw new Error('Error creating new user account: ', error);
+  }
 }

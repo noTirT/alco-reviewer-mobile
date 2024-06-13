@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Keyboard,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import { useAuth } from "../context/AuthContext";
-import { styles } from "@/styles/styles";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'react-native';
+import { useAuth } from '../context/AuthContext';
+import { styles } from '@/styles/styles';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen() {
-  const [loginName, setLoginName] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginName, setLoginName] = useState('');
+  const [password, setPassword] = useState('');
 
   const auth = useAuth();
   const navigation = useNavigation();
@@ -22,8 +22,8 @@ export default function LoginScreen() {
     Keyboard.dismiss();
     await auth.login(loginName, password);
 
-    setLoginName("");
-    setPassword("");
+    setLoginName('');
+    setPassword('');
   }
 
   return (
@@ -51,7 +51,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Signup" as never)}
+          onPress={() => navigation.navigate('Signup' as never)}
         >
           <Text style={styles.buttonText}>Signup instead</Text>
         </TouchableOpacity>
