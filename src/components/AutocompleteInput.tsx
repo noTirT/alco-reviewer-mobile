@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   FlatList,
   Keyboard,
@@ -39,12 +39,11 @@ export default function AutocompleteInput({
     name: data.filter((d) => d.id === value)[0]?.name || '',
     id: value,
   });
-  const [filteredData, setFilteredData] = useState<Data[]>([...data]);
-  const [renderList, setRenderList] = useState(false);
+  const [showKeyboard, setShowKeyboard] = useState(false);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidHide', () =>
-      setRenderList(false),
+      setShowKeyboard(false),
     );
 
     return () => {
@@ -61,18 +60,21 @@ export default function AutocompleteInput({
     }
   }, [value]);
 
-  function handleInputChange(newInput: string) {
-    setInput({ ...input, name: newInput });
-    const filteredTemp = data.filter((item) =>
-      item.name.toLowerCase().includes(newInput.toLowerCase()),
+  const filteredData = useMemo(() => {
+    return data.filter((item) =>
+      item.name.toLowerCase().includes(input.name.toLowerCase()),
     );
-    setFilteredData(filteredTemp);
-  }
+  }, [input]);
+
+  const renderList = useMemo(
+    () => showKeyboard && filteredData.length > 0,
+    [showKeyboard, filteredData],
+  );
 
   function handleSelection(item: Data) {
     setInput(item);
     onChange(item.id);
-    setRenderList(false);
+    setShowKeyboard(false);
   }
 
   function handleUnfocus() {
@@ -80,7 +82,7 @@ export default function AutocompleteInput({
     if (possibleData.length === 1) {
       onChange(possibleData[0].id);
     }
-    setRenderList(false);
+    setShowKeyboard(false);
   }
 
   return (
@@ -101,16 +103,18 @@ export default function AutocompleteInput({
         <TextInput
           style={{ width: '100%' }}
           placeholder={placeholder}
-          onChangeText={handleInputChange}
+          onChangeText={(newInput) =>
+            setInput((currInput) => ({ ...currInput, name: newInput }))
+          }
           value={input.name}
-          onFocus={() => setRenderList(true)}
+          onFocus={() => setShowKeyboard(true)}
           onSubmitEditing={handleUnfocus}
           editable={!disabled}
         />
       </View>
       {renderList && (
         <FlatList
-          style={styles.optionsList}
+          style={[styles.optionsList, { maxHeight: filteredData.length * 25 }]}
           data={filteredData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -126,6 +130,7 @@ export default function AutocompleteInput({
     </TitledComponent>
   );
 }
+
 const styles = StyleSheet.create({
   optionItem: {
     padding: 5,
@@ -135,10 +140,8 @@ const styles = StyleSheet.create({
   optionsList: {
     backgroundColor: '#fff',
     width: '90%',
-    maxHeight: 200,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    position: 'relative',
   },
   autocompleteInput: {
     flexDirection: 'row',

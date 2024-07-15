@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Keyboard,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
@@ -18,6 +19,8 @@ export default function LoginScreen() {
   const auth = useAuth();
   const navigation = useNavigation();
 
+  const passwordRef = useRef(null);
+
   async function handleLogin() {
     Keyboard.dismiss();
     await auth.login(loginName, password);
@@ -25,37 +28,48 @@ export default function LoginScreen() {
     setLoginName('');
     setPassword('');
   }
+  function focusPasswordInput() {
+    if (passwordRef.current) {
+      //@ts-ignore
+      passwordRef.current.focus();
+    }
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View style={styles.buttonContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => setLoginName(text)}
-          value={loginName}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Signup' as never)}
-        >
-          <Text style={styles.buttonText}>Signup instead</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <View style={styles.buttonContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={(text) => setLoginName(text)}
+            value={loginName}
+            autoCapitalize="none"
+            onSubmitEditing={focusPasswordInput}
+          />
+          <TextInput
+            style={styles.input}
+            ref={passwordRef}
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            onSubmitEditing={handleLogin}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Signup' as never)}
+          >
+            <Text style={styles.buttonText}>Signup instead</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }

@@ -1,10 +1,13 @@
-import { login, refreshAccessToken, signup } from "./auth"
-import { getUserProfile, getUserReviews } from "./profile"
+import * as reviews from './reviews';
+import * as drinks from './drinks';
+import * as auth from './auth';
+import * as profile from './profile';
+import * as locations from './locations';
 
 export const api = {
-    login,
-    getUserProfile,
-    refreshAccessToken,
-    signup,
-    getUserReviews
-}
+  ...drinks,
+  ...reviews,
+  ...auth,
+  ...profile,
+  ...locations,
+};

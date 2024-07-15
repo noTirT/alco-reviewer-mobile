@@ -78,8 +78,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   async function login(username: string, password: string) {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = await api.login(username, password);
       if (!response || !response.access_token || !response.refresh_token)
         throw new Error('Response missing tokens');

@@ -18,10 +18,11 @@ export default function AxiosErrorHandler({
           return response;
         },
         async function (error) {
-          console.log(error);
           if (error.response.status != 401) return Promise.reject(error);
-          if (error.response.data.status_code != 1)
-            return Promise.reject(error);
+          if (error.response.data.status_code == 2) {
+            await auth.logout();
+            return;
+          }
 
           instance.interceptors.response.eject(responseInterceptor);
 

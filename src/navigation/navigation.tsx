@@ -1,15 +1,15 @@
-import LoginScreen from "../screens/Login";
-import ProfileScreen from "../screens/Profile";
-import SplashScreen from "../screens/Splash";
-import { useAuth } from "../context/AuthContext";
-import SignupScreen from "@/screens/Signup";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import IconButton from "@/components/IconButton";
-import CreateReviewScreen from "@/screens/CreateReview";
-import Explore from "@/screens/Explore";
-import Home from "@/screens/Home";
+import LoginScreen from '../screens/Login';
+import ProfileScreen from '../screens/Profile';
+import SplashScreen from '../screens/Splash';
+import { useAuth } from '../context/AuthContext';
+import SignupScreen from '@/screens/Signup';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import IconButton from '@/components/IconButton';
+import CreateReviewScreen from '@/screens/CreateReview';
+import Explore from '@/screens/Explore';
+import Home from '@/screens/Home';
 
 export default function AppRoutes() {
   const auth = useAuth();
@@ -54,7 +54,7 @@ export default function AppRoutes() {
             options={{
               tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                  name={focused ? "home" : "home-outline"}
+                  name={focused ? 'home' : 'home-outline'}
                   size={size}
                   color={color}
                 />
@@ -68,7 +68,7 @@ export default function AppRoutes() {
             options={{
               tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                  name={focused ? "globe" : "globe-outline"}
+                  name={focused ? 'globe' : 'globe-outline'}
                   size={size}
                   color={color}
                 />
@@ -82,7 +82,7 @@ export default function AppRoutes() {
             options={{
               tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                  name={focused ? "add-circle" : "add-circle-outline"}
+                  name={focused ? 'add-circle' : 'add-circle-outline'}
                   size={size}
                   color={color}
                 />
@@ -96,7 +96,7 @@ export default function AppRoutes() {
             options={{
               tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                  name={focused ? "person-circle" : "person-circle-outline"}
+                  name={focused ? 'person-circle' : 'person-circle-outline'}
                   size={size}
                   color={color}
                 />

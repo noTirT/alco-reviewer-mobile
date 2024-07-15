@@ -18,21 +18,24 @@ export default function StarRating({
     <View style={styles.container}>
       {[...Array(5)].map((_, index) => {
         const starPosition = index + 1;
-        return (
+        const child = (
+          <View key={starPosition}>
+            <Ionicons
+              name={starPosition <= rating ? 'star' : 'star-outline'}
+              size={size}
+              color="#FFD700"
+            />
+          </View>
+        );
+        return editable && onChange !== undefined ? (
           <TouchableWithoutFeedback
             key={starPosition}
-            onPress={() =>
-              editable && onChange !== undefined && onChange(starPosition)
-            }
+            onPress={() => onChange(starPosition)}
           >
-            <View>
-              <Ionicons
-                name={starPosition <= rating ? 'star' : 'star-outline'}
-                size={size}
-                color="#FFD700"
-              />
-            </View>
+            {child}
           </TouchableWithoutFeedback>
+        ) : (
+          child
         );
       })}
     </View>

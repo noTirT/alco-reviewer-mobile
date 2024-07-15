@@ -16,3 +16,8 @@
 ## TODO
 
 - Change asyncstorage for auth items to securestorage
+- Make locations followable
+- Home page:
+  - Reviews grouped by Near you, followed reviewer, followed locations, etc.
+  - Groups swipeable from side to side
+  - Reviews as cards
