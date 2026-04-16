@@ -11,102 +11,51 @@ interface Props {
 }
 
 export default function ReviewDisplay({ review }: Props) {
-  const [expanded, setExpanded] = useState(false);
-  const [profileOpened, setProfileOpened] = useState(false);
-
-  function handleModalOpen() {
-    setProfileOpened(true);
-  }
-
   return (
-    <TouchableOpacity
-      style={styles.cardContainer}
-      onPress={() => setExpanded((curr) => !curr)}
-    >
-      <View style={styles.card}>
-        <Ionicons
-          style={{ position: 'absolute', right: 30, top: 20 }}
-          name={review.drink.alcohol ? 'beer' : 'cafe'}
-          size={55}
-        />
-        {review.reviewer_name !== '' && (
-          <TouchableOpacity
-            style={styles.reviewerContainer}
-            onPress={handleModalOpen}
-          >
-            <ProfileModal
-              visible={profileOpened}
-              reviewerId={review.reviewer_id}
-              setVisible={setProfileOpened}
-            />
-            <Image
-              source={require('../../assets/defaultProfile.png')}
-              style={styles.profileImage}
-            />
-            <Text>{review.reviewer_name}</Text>
-          </TouchableOpacity>
-        )}
-        <View style={styles.nameContainer}>
-          <Text style={styles.cardTitle}>{review.drink.name}</Text>
-        </View>
-        {expanded && (
-          <View>
-            <Text style={styles.locationText}>
-              {review.location.name}, {review.location.city}
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/defaultProfile.png')}
+        style={styles.profileImage}
+      />
+      <View style={styles.content}>
+        <View style={styles.postHeader}>
+          <Text style={styles.reviewerName}>
+            {review.reviewer_name + ' '}
+            <Text style={styles.reviewDate}>
+              - {getDateString(review.created_at)}
             </Text>
-            {review.review_text !== '' && <Text>{review.review_text}</Text>}
-          </View>
-        )}
-        <StarRating rating={review.rating} size={20} />
-        <Text style={styles.subTitle}> {getDateString(review.created_at)}</Text>
+          </Text>
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  locationText: {
-    color: '#7a7a7a',
+  reviewDate: {
+    fontWeight: 'normal',
+    color: '#a3a3a3',
   },
-  cardContainer: {
-    margin: 10,
-    minWidth: '85%',
+  reviewerName: {
+    fontWeight: 'bold',
+  },
+  postHeader: {
+    flexDirection: 'row',
+    gap: 20,
+  },
+  content: {},
+  container: {
+    minWidth: '100%',
+    padding: 5,
+    backgroundColor: '#fff',
+    borderBottomWidth: 0.3,
+    borderBottomColor: '#e2e2e2',
+    flexDirection: 'row',
+    gap: 10,
   },
   profileImage: {
-    width: 25,
-    height: 25,
+    width: 50,
+    height: 50,
     borderRadius: 150 / 2,
-  },
-  reviewerContainer: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'center',
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    marginVertical: 5,
-    gap: 10,
-    alignItems: 'center',
-  },
-  card: {
-    padding: 20,
-    paddingBottom: 5,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'left',
-  },
-  subTitle: {
-    fontSize: 12,
-    fontWeight: 'normal',
-    marginTop: 10,
-    textAlign: 'right',
   },
 });
